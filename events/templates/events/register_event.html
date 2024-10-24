@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Register for {{ event.title }} - TECH FEST{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-light mb-4">Register for {{ event.title }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            {% for field in form %}
+                <div class="col-md-6 mb-3">
+                    {{ field|as_crispy_field }}
+                </div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Register</button>
+        <a href="{% url 'events:detail' event.pk %}" class="btn btn-secondary mt-3">Cancel</a>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-group label {
+        color: #f8f9fa; /* Bootstrap's text-light color */
+    }
+</style>
+{% endblock %}

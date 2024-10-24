@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Event Host Dashboard - TECH FEST{% endblock %}
+
+{% block content %}
+<h2 class="text-light">Welcome,{{ user.username }}!</h2>
+<div class="row mt-4 text-light">
+    <div class="col-md-12">
+        <h3>Your Events</h3>
+        {% if events %}
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Actions</th>
+                        <th>Registrations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                    <tr>
+                        <td>{{ event.title }}</td>
+                        <td>{{ event.date|date:"M d, Y H:i" }}</td>
+                        <td>{{ event.location }}</td>
+                        <td>
+                            <a href="{% url 'events:event_edit' event.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="{% url 'events:event_delete' event.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'events:event_registrations' event.pk %}" class="btn btn-sm btn-info">View Registrations</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>You haven't created any events yet.</p>
+        {% endif %}
+        <a href="{% url 'events:event_create' %}" class="btn btn-primary">Create New Event</a>
+    </div>
+</div>
+{% endblock %}

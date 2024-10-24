@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% now "Y-m-d" as current_date %}
+
+{% block title %}User Dashboard - TECH FEST{% endblock %}
+
+{% block content %}
+<div class="container mt-4 text-light">
+    <h2 class="text-light">Welcome, {{ user.username }}!</h2>
+
+    <div class="row">
+        <div class="col-md-8">
+            {% if registered_events %}
+                <h4 class="mb-4">Your Registered Events</h4>
+                <div class="accordion" id="registered-events-accordion">
+                    {% for event in registered_events %}
+                        <div class="accordion-item bg-dark mb-2">
+                            <h4 class="accordion-header" id="event-{{ event.id }}-header">
+                                <button class="accordion-button bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#event-{{ event.id }}-collapse" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="event-{{ event.id }}-collapse">
+                                    {{ event.title }}
+                                </button>
+                            </h4>
+                            <div id="event-{{ event.id }}-collapse" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="event-{{ event.id }}-header" data-bs-parent="#registered-events-accordion">
+                                <div class="accordion-body">
+                                    <p>Date: {{ event.date|date:"F d, Y - h:i A" }}</p>
+                                    <p>Your Registration: {% for registration in registrations %}{% if registration.event == event %}{{ registration }}{% endif %}{% endfor %}</p>
+                                    <div class="table-responsive">
+                                        <table class="table table-dark table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>User</th>
+                                                    <th>Department</th>
+                                                    <th>Semester</th>
+                                                    <th>Course</th>
+                                                    <th>Registration Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for registration in registrations %}
+                                                    {% if registration.event == event %}
+                                                        <tr>
+                                                            <td>{{ registration.user.username }}</td>
+                                                            <td>{{ registration.get_department_display }}</td>
+                                                            <td>{{ registration.get_semester_display }}</td>
+                                                            <td>{{ registration.get_course_display }}</td>
+                                                            <td>{{ registration.registration_date|date:"F d, Y - h:i A" }}</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>You haven't registered for any events yet.</p>
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            <h3 class="mb-4">Upcoming Events</h3>
+            {% if upcoming_events %}
+                {% for event in upcoming_events %}
+                    <div class="card mb-4 bg-dark">
+                        <div class="card-header">
+                            <h4>{{ event.title }}</h4>
+                            <p>Date: {{ event.date|date:"F d, Y - h:i A" }}</p>
+                            <p>Location: {{ event.location }}</p>
+                        </div>
+                        <div class="card-body">
+                            <p>{{ event.description }}</p>
+                            {% if event in registered_events %}
+                                <p class="text-success">You are registered for this event.</p>
+                            {% else %}
+                                <a href="{% url 'events:register_event' event.id %}" class="btn btn-primary">Register</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>There are no upcoming events.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

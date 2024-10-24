@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="contact-container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 font-weight-bold text-light">Contact Us</h1>
+        <p class="lead text-light">Have questions about TECH FEST? We'd love to hear from you!</p>
+    </div>
+    
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card contact-card shadow-lg p-4 mb-5">
+                <h3 class="card-title mb-4 text-center">Reach out to us:</h3>
+                <div class="contact-info mb-4">
+                    <p class="mb-2"><i class="fas fa-envelope mr-2"></i> Email: <a href="mailto:info@techfest.com" class="contact-link">info@techfest.com</a></p>
+                    <p><i class="fas fa-phone mr-2"></i> Phone: <a href="tel:+11234567890" class="contact-link">(123) 456-7890</a></p>
+                </div>
+
+                <h3 class="card-title mb-4 text-center">Or send us a message:</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="name" class="form-label">Your Name</label>
+                        <input type="text" class="form-control form-input" id="name" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">Your Email</label>
+                        <input type="email" class="form-control form-input" id="email" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control form-input" id="message" rows="4" placeholder="Type your message here"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block contact-button mt-2">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<style>
+/* Background for the whole contact section */
+.contact-container {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.9), rgba(34, 34, 34, 0.9));
+    border-radius: 10px;
+}
+
+/* Card styling for a modern look */
+.contact-card {
+    background: #1b1b1b;
+    border-radius: 15px;
+    padding: 30px;
+    color: #ffffff;
+}
+
+/* Custom styling for text links */
+.contact-link {
+    color: #00d1b2;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.contact-link:hover {
+    color: #00a58e;
+}
+
+/* Form input and textarea styling */
+.form-input {
+    background-color: #2d2d2d;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.form-input:focus {
+    background-color: #3a3a3a;
+    color: #ffffff;
+    border-color: #00d1b2;
+    box-shadow: 0 0 5px rgba(0, 209, 178, 0.8);
+}
+
+/* Custom button style */
+.contact-button {
+    background-color: #00d1b2;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.contact-button:hover {
+    background-color: #00a58e;
+    box-shadow: 0 0 10px rgba(0, 209, 178, 0.7);
+}
+
+/* Adjustments for text */
+.text-light {
+    color: #ffffff;
+}
+
+/* Additional hover effect on the form fields */
+.form-label {
+    color: #b3b3b3;
+    font-size: 0.9rem;
+}
+</style>

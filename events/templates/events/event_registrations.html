@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Registrations for {{ event.title }} - TECH FEST{% endblock %}
+
+{% block content %}
+<div class="container mt-4 text-light">
+    <h2>Registrations for {{ event.title }}</h2>
+    <p>Date: {{ event.date|date:"F d, Y - h:i A" }}</p>
+    <p>Location: {{ event.location }}</p>
+    <a href="{% url 'events:registration_report' event.id %}" class="btn btn-success mt-2 mb-2">Download Registration Report</a>
+
+    {% if registrations %}
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Department</th>
+                    <th>Semester</th>
+                    <th>Course</th>
+                    <th>Registration Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for registration in registrations %}
+                    <tr>
+                        <td>{{ registration.user.username }}</td>
+                        <td>{{ registration.get_department_display }}</td>
+                        <td>{{ registration.get_semester_display }}</td>
+                        <td>{{ registration.get_course_display }}</td>
+                        <td>{{ registration.registration_date|date:"F d, Y - h:i A" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No registrations yet for this event.</p>
+    {% endif %}
+
+    <a href="{% url 'users:dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
+</div>
+{% endblock %}

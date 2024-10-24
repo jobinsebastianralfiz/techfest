@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Events - TECH FEST{% endblock %}
+
+{% block content %}
+<div class="events-layout">
+    <h2 class="events__title">Upcoming Event</h2>
+    <div class="events__list">
+        {% for event in events %}
+        <div class="event-card">
+            <h3 class="event-card__title">{{ event.title }}</h3>
+            <p class="event-card__date">{{ event.date }}</p>
+            <p class="event-card__description">{{ event.description|truncatewords:20 }}</p>
+            <a href="{% url 'events:detail' event.pk %}" class="btn btn--main">View Details</a>
+        </div>
+        {% empty %}
+        <p>No events available.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

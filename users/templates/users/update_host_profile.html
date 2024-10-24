@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Host Profile - TECH FEST{% endblock %}
+
+{% block content %}
+<div class="container mt-4 text-light">
+    <h2>Update Host Profile</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="organization" class="form-label">Organization</label>
+            <input type="text" class="form-control" id="organization" name="organization" value="{{ host_profile.organization }}">
+        </div>
+        <div class="mb-3">
+            <label for="designation" class="form-label">Designation</label>
+            <input type="text" class="form-control" id="designation" name="designation" value="{{ host_profile.designation }}">
+        </div>
+        <div class="mb-3">
+            <label for="phone_number" class="form-label">Phone Number</label>
+            <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ host_profile.phone_number }}">
+        </div>
+        <div class="mb-3">
+            <label for="biography" class="form-label">Biography</label>
+            <textarea class="form-control" id="biography" name="biography" rows="3">{{ host_profile.biography }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="profile_picture" class="form-label">Profile Picture</label>
+            <input type="file" class="form-control" id="profile_picture" name="profile_picture">
+            {% if host_profile.profile_picture %}
+                <img src="{{ host_profile.profile_picture.url }}" alt="Profile Picture" class="img-thumbnail mt-2" style="max-width: 200px;">
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+</div>
+{% endblock %}

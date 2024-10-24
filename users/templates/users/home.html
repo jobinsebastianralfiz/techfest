@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Welcome to TECH FEST{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+<style>
+/* Ensuring flexbox behavior and resetting styles */
+.event-slider {
+    display: block;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+/* Ensure no previous styles interfere with flexbox */
+.slider-item {
+    display: flex;
+    flex-wrap: nowrap; /* Ensure the items stay side by side */
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Control the width of the image */
+.slider-item img {
+    width: 30%;  /* Image takes 40% of the slider width */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 300px; /* Set a maximum height to avoid overly large images */
+    object-fit: cover; /* Ensure the image fits within the column without distortion */
+    display: block;
+    border-radius: 10px; /* Optional: add rounded corners if desired */
+}
+
+/* Control the layout of the content */
+.slider-content {
+    flex: 1; /* Take up the remaining space */
+    padding-left: 20px; /* Space between image and content */
+}
+
+.slider-caption h2 {
+    margin-top: 0;
+    color: var(--color-dark);
+}
+
+.slider-caption p {
+    color: var(--color-dark-light);
+}
+
+.slider-caption .btn {
+    margin-top: 20px;
+}
+
+/* Style for slick dots */
+.slick-dots li button:before {
+    color: #007bff;
+}
+
+/* Ensure flexbox doesn't break on slider change */
+.slick-slide {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 768px) {
+    .slider-item {
+        flex-direction: column; /* Stack image and content vertically */
+        text-align: center;     /* Center text on mobile screens */
+    }
+
+    .slider-content {
+        padding-left: 0;
+        margin-top: 20px;
+    }
+
+    .slider-item img {
+        width: 100%;  /* Full width on small screens */
+        max-height: none; /* Remove height restriction on mobile */
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="event-slider mb-5">
+    {% for event in events %}
+    <div class="slider-item">
+        <!-- Slider image on the left -->
+        {% if event.image %}
+        <img src="{{ event.image.url }}" alt="{{ event.title }}" class="img-fluid">
+        {% endif %}
+
+        <!-- Slider content on the right -->
+        <div class="slider-content">
+            <div class="slider-caption">
+                <h2 class="text-light">{{ event.title }}</h2>
+                <p class="text-light">{{ event.description|truncatewords:20 }}</p>
+                <p class="text-light"><strong>Date:</strong> {{ event.date }}</p>
+                <p class="text-light"><strong>Venue:</strong> {{ event.location }}</p>
+                <p class="text-muted"><strong>Hosted by:</strong> {{ event.host }}</p>
+                <a href="{{ event.get_absolute_url }}" class="btn btn-primary">Learn More</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<h2 class="text-light mb-4">Upcoming Events</h2>
+<div class="row">
+    {% for event in events %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            {% if event.image %}
+            <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ event.title }}</h5>
+                <p class="card-text">{{ event.description|truncatewords:20 }}</p>
+                <p><strong>Date:</strong> {{ event.date }}</p>
+                <p><strong>Venue:</strong> {{ event.location }}</p>
+                <p><strong>Hosted by:</strong> {{ event.host }}</p>
+                <a href="{{ event.get_absolute_url }}" class="btn btn-primary">Learn More</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script>
+    $(document).ready(function(){
+        if ($('.event-slider').length) {
+            console.log("Initializing Slick slider...");
+            $('.event-slider').slick({
+                autoplay: true,
+                autoplaySpeed: 3000,
+                dots: true,
+                arrows: true,
+                infinite: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                adaptiveHeight: false /* Keep a consistent height for all slides */
+            });
+        } else {
+            console.log("Slider element not found.");
+        }
+    });
+</script>
+{% endblock %}
